@@ -1,0 +1,6 @@
+@Meekou.Fig_HostAddress = http://localhost:5062
+
+GET {{Meekou.Fig_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
