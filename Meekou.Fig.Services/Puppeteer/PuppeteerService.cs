@@ -17,6 +17,7 @@ namespace Meekou.Fig.Services.Puppeteer
             // Launch the browser
             var browser = await PuppeteerSharp.Puppeteer.LaunchAsync(new LaunchOptions
             {
+                Args = new string[] { "--no-sandbox" },
                 Headless = true  // Set to true for headless mode (background)
             });
 
