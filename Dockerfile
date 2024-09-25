@@ -21,17 +21,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Meekou.Fig/Meekou.Fig.csproj", "Meekou.Fig/"]
-RUN dotnet restore "./Meekou.Fig/./Meekou.Fig.csproj"
+COPY ["Meekou.Fig.Web/Meekou.Fig.Web.csproj", "Meekou.Fig.Web/"]
+RUN dotnet restore "./Meekou.Fig.Web/Meekou.Fig.Web.csproj"
 COPY . .
-WORKDIR "/src/Meekou.Fig"
-RUN dotnet build "./Meekou.Fig.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Meekou.Fig.Web"
+RUN dotnet build "./Meekou.Fig.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Meekou.Fig.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Meekou.Fig.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Meekou.Fig.dll"]
+ENTRYPOINT ["dotnet", "Meekou.Fig.Web.dll"]
