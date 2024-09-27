@@ -1,4 +1,5 @@
 ﻿using Meekou.Fig.Models;
+using Meekou.Fig.Services;
 using Meekou.Fig.Services.Puppeteer;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,15 +12,25 @@ namespace Meekou.Fig.Web.Controllers
     public class FileController : ControllerBase
     {
         private readonly IPuppeteerService _puppeteerService;
-        public FileController(IPuppeteerService puppeteerService)
+        private readonly IConvertService _convertService;
+        public FileController(IPuppeteerService puppeteerService
+            , IConvertService convertService)
         {
             _puppeteerService = puppeteerService;
+            _convertService = convertService;
         }
         [HttpPost]
         public async Task<IActionResult> HtmlToPdf(string htmlContent)
         {
             var fileBytes = await _puppeteerService.HtmlToPdf(htmlContent);
             return File(fileBytes, "application/pdf", $"{MeekouConsts.MeekouShare}.pdf");
+        }
+        [HttpPost]
+        public async Task<IActionResult> SwaggerThreeToTwo(string swaggerUrl)
+        {
+            var content = await _convertService.Swagger(swaggerUrl, Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
+            return File(content, "application/json", $"{MeekouConsts.MeekouShare}.json");
+
         }
     }
 }

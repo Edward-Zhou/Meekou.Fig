@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Meekou.Fig.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class TextController : ControllerBase
     {      
@@ -16,7 +16,7 @@ namespace Meekou.Fig.Web.Controllers
             _textService = textService;
         }
         [HttpPost]
-        public Task<List<string>> Post(RegexInput input)
+        public Task<List<string>> Regex(RegexInput input)
         {
             var result = _textService.Regex(input);
             return result;

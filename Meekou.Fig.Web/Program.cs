@@ -20,6 +20,7 @@ namespace Meekou.Fig.Web
             builder.Services.AddScoped<IMathService, MathService>();
             builder.Services.AddScoped<IPuppeteerService, PuppeteerService>();
             builder.Services.AddScoped<ITextService, TextService>();
+            builder.Services.AddScoped<IConvertService, ConvertService>();
             #endregion
             // Add services to the container.
 
@@ -48,7 +49,17 @@ namespace Meekou.Fig.Web
                         Name = "MIT License",
                         Url = new Uri("https://github.com/aspnetboilerplate/aspnetboilerplate/blob/dev/LICENSE"),
                     }
-                });                
+                });
+                options.AddServer(new OpenApiServer
+                {
+                    Url = "https://meekou-fig.azurewebsites.net/",
+                    Description = "Meekou"
+                });
+                options.AddServer(new OpenApiServer
+                {
+                    Url = "https://localhost:7295/",
+                    Description = "Meekou"
+                });
                 // Define the BearerAuth scheme that's in use
                 options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme()
                 {
@@ -62,8 +73,9 @@ namespace Meekou.Fig.Web
                 {
                     return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
                 });
+                options.OperationFilter<ResponseSwaggerOperationFilter>();
             });
-            builder.Services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = true);
+            //builder.Services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = true);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
