@@ -1,4 +1,5 @@
 
+using Meekou.Fig.Core.Filters;
 using Meekou.Fig.Models;
 using Meekou.Fig.Services;
 using Meekou.Fig.Services.Math;
@@ -22,7 +23,11 @@ namespace Meekou.Fig.Web
             #endregion
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add<ResponseWrapperFilter>();
+                options.Filters.Add<ResponseExceptionFilter>();
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
@@ -67,7 +72,7 @@ namespace Meekou.Fig.Web
 
             app.UseAuthorization();
 
-
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.MapControllers();
 
             app.Run();

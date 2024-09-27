@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Meekou.Fig.Core\Meekou.Fig.Core.csproj" />
     <ProjectReference Include="..\Meekou.Fig.Models\Meekou.Fig.Models.csproj" />
     <ProjectReference Include="..\Meekou.Fig.Services\Meekou.Fig.Services.csproj" />
   </ItemGroup>
