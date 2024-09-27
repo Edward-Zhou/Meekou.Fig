@@ -26,7 +26,6 @@ namespace Meekou.Fig.Web
 
             builder.Services.AddControllers(options =>
             {
-                options.Filters.Add<ResponseWrapperFilter>();
                 options.Filters.Add<ResponseExceptionFilter>();
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -73,7 +72,6 @@ namespace Meekou.Fig.Web
                 {
                     return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
                 });
-                options.OperationFilter<ResponseSwaggerOperationFilter>();
             });
             //builder.Services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = true);
             var app = builder.Build();

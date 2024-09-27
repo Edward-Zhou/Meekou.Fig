@@ -1,4 +1,5 @@
 ﻿using Meekou.Fig.Models;
+using Meekou.Fig.Models.Common;
 using Meekou.Fig.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +17,10 @@ namespace Meekou.Fig.Web.Controllers
             _textService = textService;
         }
         [HttpPost]
-        public Task<List<string>> Regex(RegexInput input)
+        public Response Regex(RegexInput input)
         {
             var result = _textService.Regex(input);
-            return result;
+            return new Response(result);
         }
     }
 }

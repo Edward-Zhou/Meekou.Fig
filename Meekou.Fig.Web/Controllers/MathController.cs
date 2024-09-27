@@ -1,4 +1,5 @@
 ﻿using Meekou.Fig.Models;
+using Meekou.Fig.Models.Common;
 using Meekou.Fig.Services.Math;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -17,19 +18,19 @@ namespace Meekou.Fig.Web.Controllers
             _mathService = mathService;
         }
         [HttpPost]
-        public double Evaluate(string formula)
+        public Response Evaluate(string formula)
         {
-            return _mathService.Evaluate(formula);
+            return new Response(_mathService.Evaluate(formula));
         }
         [HttpPost]
-        public decimal Sum(SumInput input)
+        public Response Sum(SumInput input)
         {
-            return _mathService.Sum(input);
+            return new Response(_mathService.Sum(input));
         }
         [HttpPost]
-        public decimal RoundUp(decimal input)
+        public Response RoundUp(decimal input)
         {
-            return _mathService.RoundUp(input);
+            return new Response(_mathService.RoundUp(input));
         }
     }
 }
