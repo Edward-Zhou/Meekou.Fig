@@ -16,6 +16,12 @@ namespace Meekou.Fig.Web.Controllers
         {
             _textService = textService;
         }
+        /// <summary>
+        /// regex for text
+        /// </summary>
+        /// <param name="input">regex input</param>
+        /// <returns>regex result</returns>
+        /// <remarks>regex result</remarks>
         [HttpPost]
         public Response Regex(RegexInput input)
         {

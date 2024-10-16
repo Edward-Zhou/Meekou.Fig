@@ -16,6 +16,7 @@ namespace Meekou.Fig.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var env = builder.Environment;
             #region Meekou
             builder.Services.AddScoped<IMathService, MathService>();
             builder.Services.AddScoped<IPuppeteerService, PuppeteerService>();
@@ -35,8 +36,8 @@ namespace Meekou.Fig.Web
                 options.SwaggerDoc(MeekouConsts.ApiVersion, new OpenApiInfo
                 {
                     Version = MeekouConsts.ApiVersion,
-                    Title = "Meekou Share Connector",
-                    Description = "Provide common functions which help to improve PowerApps & Automate development process.",
+                    Title = "Meekou Share",
+                    Description = "Provide common functions which help to improve Power Platform development process.",
                     Contact = new OpenApiContact
                     {
                         Name = "米可爱分享",
@@ -72,8 +73,16 @@ namespace Meekou.Fig.Web
                 {
                     return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
                 });
+                var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml");
+                foreach (var xmlFile in xmlFiles)
+                {
+                    options.IncludeXmlComments(xmlFile);
+                }
+                options.DocumentFilter<SwaggerFilter>();
+                options.OperationFilter<SwaggerFilter>();
             });
-            //builder.Services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = true);
+            // Uncomment out this line during debug mode to check swagger json
+            // builder.Services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = env.IsDevelopment());
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

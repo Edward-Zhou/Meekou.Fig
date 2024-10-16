@@ -2,6 +2,21 @@
 
 Meekou connector provides a powerful base functions. Using this connector, you can focus on implementing business logic without write duplicate operation to do basic operations.
 
+## Development
+
+- To generate swagger json for powerapps connect, un comment out code below in Program.cs
+
+```cs
+// Uncomment out this line during debug mode to check swagger json
+builder.Services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = env.IsDevelopment());
+```
+
+- Validate Swagger
+
+```cmd
+paconn validate -d apiDefinition.swagger.json
+```
+
 ## Publisher: Meekou
 
 ## Prerequisites
