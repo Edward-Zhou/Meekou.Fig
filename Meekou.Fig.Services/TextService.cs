@@ -27,7 +27,7 @@ namespace Meekou.Fig.Services
                 results.Add(new RegexOutput
                 {
                     Match = match.Value,
-                    Groups = match.Groups.Values.Select(g => g.Value).ToList(),
+                    Groups = match.Groups.Values.Where(g => g.Value != match.Value).Select(g => g.Value).ToList(),
                 });
             }
 
