@@ -1,5 +1,6 @@
 
 using Meekou.Fig.Core.Filters;
+using Meekou.Fig.Core.Middlewares;
 using Meekou.Fig.Models;
 using Meekou.Fig.Services;
 using Meekou.Fig.Services.Math;
@@ -29,6 +30,15 @@ namespace Meekou.Fig.Web
             {
                 options.Filters.Add<ResponseExceptionFilter>();
             });
+            builder.Services.AddHttpClient(string.Empty, _ => { })
+                    .ConfigurePrimaryHttpMessageHandler(() =>
+                    {
+                        return new HttpClientHandler
+                        {
+                            ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+                        };
+                    });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
@@ -82,7 +92,7 @@ namespace Meekou.Fig.Web
                 options.OperationFilter<SwaggerFilter>();
             });
             // Uncomment out this line during debug mode to check swagger json
-            // builder.Services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = env.IsDevelopment());
+            //builder.Services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = env.IsDevelopment());
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -92,6 +102,7 @@ namespace Meekou.Fig.Web
             app.UseAuthorization();
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseMiddleware<HostMiddleware>();
             app.MapControllers();
 
             app.Run();

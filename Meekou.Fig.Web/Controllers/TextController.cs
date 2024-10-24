@@ -23,9 +23,9 @@ namespace Meekou.Fig.Web.Controllers
         /// <returns>regex result</returns>
         /// <remarks>regex result</remarks>
         [HttpPost]
-        public Response Regex(RegexInput input)
+        public async Task<Response> Regex(RegexInput input)
         {
-            var result = _textService.Regex(input);
+            var result = await _textService.Regex(input);
             return new Response(result);
         }
     }

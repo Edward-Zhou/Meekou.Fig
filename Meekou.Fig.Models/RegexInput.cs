@@ -11,4 +11,9 @@ namespace Meekou.Fig.Models
         public string Content { get; set; }
         public string Pattern { get; set; }
     }
+    public class RegexOutput
+    {
+        public string Match { get; set; }
+        public List<string> Groups { get; set; }
+    }
 }

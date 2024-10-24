@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc.Controllers;
+﻿using Meekou.Fig.Models;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.XPath;
@@ -117,6 +120,7 @@ namespace Meekou.Fig.Core.Filters
         {
             RemoveTextJonProduces(operation, context);
             AddSummaryForOperation(operation, context);
+            HostHeader(operation, context);
         }
         private void AddSummaryForOperation(OpenApiOperation operation, OperationFilterContext context)
         {
@@ -141,6 +145,21 @@ namespace Meekou.Fig.Core.Filters
                     response.Value.Content.Remove(produce);
                 }
             }
+        }
+        private void HostHeader(OpenApiOperation operation, OperationFilterContext context)
+        {
+            operation.Parameters.Add(new OpenApiParameter
+            {
+                Name = MeekouConsts.CustomHost,
+                In = ParameterLocation.Header,
+                Required = false, // Set to true if it's required
+                Schema = new OpenApiSchema { Type = "string" },
+                Description = MeekouConsts.CustomHost,
+                Extensions = new Dictionary<string, IOpenApiExtension>
+                {
+                    { "x-ms-summary", new OpenApiString(MeekouConsts.CustomHost) }
+                }
+            });
         }
         #endregion
     }

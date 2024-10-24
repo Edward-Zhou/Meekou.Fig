@@ -10,7 +10,7 @@ namespace Meekou.Fig.Services
 {
     public class TextService: ITextService
     {
-        public async Task<List<string>> Regex(RegexInput input)
+        public async Task<List<RegexOutput>> Regex(RegexInput input)
         {
             // Create a Regex object with the provided pattern
             Regex regex = new Regex(input.Pattern);
@@ -19,15 +19,19 @@ namespace Meekou.Fig.Services
             MatchCollection matches = regex.Matches(input.Content);
 
             // Create a list to store all the matched strings
-            List<string> matchResults = new List<string>();
+            List<RegexOutput> results = new List<RegexOutput>();
 
             // Iterate through all the matches and add them to the list
             foreach (Match match in matches)
             {
-                matchResults.Add(match.Value);
+                results.Add(new RegexOutput
+                {
+                    Match = match.Value,
+                    Groups = match.Groups.Values.Select(g => g.Value).ToList(),
+                });
             }
 
-            return matchResults;
+            return results;
         }
     }
 }

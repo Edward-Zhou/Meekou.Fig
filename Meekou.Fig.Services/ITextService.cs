@@ -4,6 +4,6 @@ namespace Meekou.Fig.Services
 {
     public interface ITextService
     {
-        Task<List<string>> Regex(RegexInput input);
+        Task<List<RegexOutput>> Regex(RegexInput input);
     }
 }
