@@ -35,7 +35,7 @@ namespace Meekou.Fig.Web.Controllers
         /// <summary>
         /// convert swagger v3 to v2
         /// </summary>
-        /// <param name="swaggerUrl">publich url for swagger content</param>
+        /// <param name="swaggerUrl">publish url for swagger content</param>
         /// <returns>converted v2 swagger file</returns>
         /// <remarks>convert swagger v3 to v2</remarks>
         [HttpPost]        
